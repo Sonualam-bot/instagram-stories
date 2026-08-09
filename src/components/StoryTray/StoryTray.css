@@ -1,0 +1,11 @@
+.story-tray {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 16px 12px;
+  scrollbar-width: none;
+}
+
+.story-tray::-webkit-scrollbar {
+  display: none;
+}
