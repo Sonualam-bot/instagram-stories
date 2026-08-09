@@ -1,22 +1,38 @@
+import { useEffect } from 'react'
 import { useStories } from './hooks/useStories'
 import { useStoryNavigation } from './hooks/useStoryNavigation'
+import { useViewedUsers } from './hooks/useViewedUsers'
 import StoryTray from './components/StoryTray/StoryTray'
 import StoryViewer from './components/StoryViewer/StoryViewer'
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner'
 import './App.css'
 
-// Composition root: fetches data and owns navigation state, then hands
-// plain props down to presentational components. Nothing below this file
-// talks to the network or knows how "active story" is tracked.
+// Composition root: fetches data and owns navigation/viewed state, then
+// hands plain props down to presentational components. Nothing below this
+// file talks to the network or knows how position/viewed state is tracked.
 function App() {
-  const { stories, isLoading, error } = useStories()
-  const { activeIndex, openStory, close, next, prev } = useStoryNavigation(stories.length)
+  const { stories: users, isLoading, error } = useStories()
+  const { position, openUser, close, next, prev } = useStoryNavigation(users)
+  const { isViewed, markViewed } = useViewedUsers()
 
-  const trayItems = stories.map((story) => ({
-    id: story.id,
-    avatarUrl: story.avatar,
-    label: story.username,
+  // Marks the current user as viewed on every position change, not just on
+  // the initial tap — covers auto-advancing straight through a user's
+  // stories into the next one without ever tapping their thumbnail.
+  useEffect(() => {
+    if (position) {
+      markViewed(users[position.userIndex].id)
+    }
+  }, [position, users, markViewed])
+
+  const trayItems = users.map((user) => ({
+    id: user.id,
+    avatarUrl: user.avatar,
+    label: user.username,
+    isViewed: isViewed(user.id),
   }))
+
+  const activeUser = position ? users[position.userIndex] : null
+  const activeStory = activeUser ? activeUser.stories[position.storyIndex] : null
 
   return (
     <div className="app">
@@ -28,13 +44,13 @@ function App() {
 
       {error && <div className="app__status">Couldn't load stories.</div>}
 
-      {!isLoading && !error && <StoryTray items={trayItems} onSelectItem={openStory} />}
+      {!isLoading && !error && <StoryTray items={trayItems} onSelectItem={openUser} />}
 
-      {activeIndex !== null && stories[activeIndex] && (
+      {activeUser && activeStory && (
         <StoryViewer
-          story={stories[activeIndex]}
-          storyCount={stories.length}
-          activeIndex={activeIndex}
+          user={activeUser}
+          story={activeStory}
+          storyIndex={position.storyIndex}
           onNext={next}
           onPrev={prev}
           onClose={close}

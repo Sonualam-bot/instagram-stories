@@ -8,7 +8,7 @@ import './StoryViewer.css'
 // Orchestrator: wires the image-preload status into the progress bar and
 // tap navigation. Receives all story data + navigation callbacks as props —
 // it never fetches or owns index state itself.
-function StoryViewer({ story, storyCount, activeIndex, onNext, onPrev, onClose }) {
+function StoryViewer({ user, story, storyIndex, onNext, onPrev, onClose }) {
   const status = useImagePreloader(story.imageUrl)
   const isReady = status === 'loaded' || status === 'error'
   const isLoading = !isReady
@@ -16,16 +16,16 @@ function StoryViewer({ story, storyCount, activeIndex, onNext, onPrev, onClose }
   return (
     <div className="story-viewer">
       <ProgressBar
-        count={storyCount}
-        activeIndex={activeIndex}
+        count={user.stories.length}
+        activeIndex={storyIndex}
         isActive={isReady}
         durationMs={STORY_DURATION_MS}
         onSegmentComplete={onNext}
       />
 
       <div className="story-viewer__header">
-        <img src={story.avatar} alt="" className="story-viewer__avatar" />
-        <span className="story-viewer__username">{story.username}</span>
+        <img src={user.avatar} alt="" className="story-viewer__avatar" />
+        <span className="story-viewer__username">{user.username}</span>
         <button
           type="button"
           className="story-viewer__close"

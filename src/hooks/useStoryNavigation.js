@@ -1,34 +1,34 @@
 import { useCallback, useState } from 'react'
-import { getNextIndex, getPrevIndex } from '../utils/storyNavigation'
+import { getNextPosition, getPrevPosition } from '../utils/storyNavigation'
 
-// Owns which story is active and how to move between them.
-// activeIndex === null means the tray is showing, no story is open.
-export function useStoryNavigation(totalStories) {
-  const [activeIndex, setActiveIndex] = useState(null);
+// Owns the current { userIndex, storyIndex } position, or null when the
+// tray is showing and no story is open. `users` is the full grouped list
+// so the underlying position math can vary story count per user.
+export function useStoryNavigation(users) {
+  const [position, setPosition] = useState(null)
 
-  const openStory = useCallback((index) => {
-    setActiveIndex(index)
+  const openUser = useCallback((userIndex) => {
+    setPosition({ userIndex, storyIndex: 0 })
   }, [])
 
   const close = useCallback(() => {
-    setActiveIndex(null)
+    setPosition(null)
   }, [])
 
   const next = useCallback(() => {
-    setActiveIndex((current) => {
+    setPosition((current) => {
       if (current === null) return current
-      const nextIndex = getNextIndex(current, totalStories)
-      return nextIndex // null closes the viewer when the last story is passed
+      return getNextPosition(users, current.userIndex, current.storyIndex)
     })
-  }, [totalStories])
+  }, [users])
 
   const prev = useCallback(() => {
-    setActiveIndex((current) => {
+    setPosition((current) => {
       if (current === null) return current
-      const prevIndex = getPrevIndex(current)
-      return prevIndex === null ? current : prevIndex // no-op at the first story
+      const prevPosition = getPrevPosition(users, current.userIndex, current.storyIndex)
+      return prevPosition === null ? current : prevPosition
     })
-  }, [])
+  }, [users])
 
-  return { activeIndex, openStory, close, next, prev }
+  return { position, openUser, close, next, prev }
 }

@@ -13,6 +13,7 @@ function StoryTray({ items, onSelectItem }) {
           key={item.id}
           avatarUrl={item.avatarUrl}
           label={item.label}
+          isViewed={item.isViewed}
           onClick={() => onSelectItem(index)}
         />
       ))}
