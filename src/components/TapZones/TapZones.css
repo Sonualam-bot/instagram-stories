@@ -1,0 +1,13 @@
+.tap-zones {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.tap-zones__zone {
+  height: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
