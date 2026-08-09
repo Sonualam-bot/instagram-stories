@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "username": "sonu_alam",
+    "avatar": "https://picsum.photos/id/64/100/100",
+    "imageUrl": "https://picsum.photos/id/1015/720/1280"
+  },
+  {
+    "id": 2,
+    "username": "dev_raj",
+    "avatar": "https://picsum.photos/id/65/100/100",
+    "imageUrl": "https://picsum.photos/id/1025/720/1280"
+  },
+  {
+    "id": 3,
+    "username": "mira_codes",
+    "avatar": "https://picsum.photos/id/91/100/100",
+    "imageUrl": "https://picsum.photos/id/1035/720/1280"
+  },
+  {
+    "id": 4,
+    "username": "arjun.k",
+    "avatar": "https://picsum.photos/id/177/100/100",
+    "imageUrl": "https://picsum.photos/id/1045/720/1280"
+  },
+  {
+    "id": 5,
+    "username": "layla_uix",
+    "avatar": "https://picsum.photos/id/203/100/100",
+    "imageUrl": "https://picsum.photos/id/1055/720/1280"
+  },
+  {
+    "id": 6,
+    "username": "tom_builds",
+    "avatar": "https://picsum.photos/id/219/100/100",
+    "imageUrl": "https://picsum.photos/id/1065/720/1280"
+  },
+  {
+    "id": 7,
+    "username": "nadia_r",
+    "avatar": "https://picsum.photos/id/236/100/100",
+    "imageUrl": "https://picsum.photos/id/1074/720/1280"
+  },
+  {
+    "id": 8,
+    "username": "kevin.dev",
+    "avatar": "https://picsum.photos/id/244/100/100",
+    "imageUrl": "https://picsum.photos/id/1084/720/1280"
+  }
+]
